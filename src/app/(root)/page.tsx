@@ -5,23 +5,21 @@ import { Button } from '@/components/ui/button';
 import InterviewCard from '@/components/interview-card';
 
 import { getCurrentUser } from '@/lib/actions/auth.action';
-// import {
-//   getInterviewsByUserId,
-//   getLatestInterviews,
-// } from '@/lib/actions/general.action';
+import {
+  getInterviewsByUserId,
+  getLatestInterviews,
+} from '@/lib/actions/general.action';
 
 async function Home() {
   const user = await getCurrentUser();
-  const interview = null as Interview | null;
 
-  // const [userInterviews, allInterview] = await Promise.all([
-  //   getInterviewsByUserId(user?.id!),
-  //   getLatestInterviews({ userId: user?.id! }),
-  // ]);
+  const [userInterviews, allInterview] = await Promise.all([
+    getInterviewsByUserId(user!.id),
+    getLatestInterviews({ userId: user!.id }),
+  ]);
 
-  // const hasPastInterviews = userInterviews?.length! > 0;
-  // const hasUpcomingInterviews = allInterview?.length! > 0;
-
+  const hasPastInterviews = userInterviews && userInterviews.length! > 0;
+  const hasUpcomingInterviews = allInterview && allInterview.length > 0;
   return (
     <>
       <section className='card-cta'>
@@ -49,7 +47,7 @@ async function Home() {
         <h2>Your Interviews</h2>
 
         <div className='interviews-section'>
-          {/* {hasPastInterviews ? (
+          {hasPastInterviews ? (
             userInterviews?.map((interview) => (
               <InterviewCard
                 key={interview.id}
@@ -63,7 +61,7 @@ async function Home() {
             ))
           ) : (
             <p>You haven&apos;t taken any interviews yet</p>
-          )} */}
+          )}
         </div>
       </section>
 
@@ -71,7 +69,7 @@ async function Home() {
         <h2>Take Interviews</h2>
 
         <div className='interviews-section'>
-          {/* {hasUpcomingInterviews ? (
+          {hasUpcomingInterviews ? (
             allInterview?.map((interview) => (
               <InterviewCard
                 key={interview.id}
@@ -85,7 +83,7 @@ async function Home() {
             ))
           ) : (
             <p>There are no interviews available</p>
-          )} */}
+          )}
         </div>
       </section>
     </>
